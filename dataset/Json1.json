@@ -1,0 +1,86 @@
+{
+	"name": "Json1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "dataset"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "DEVICEIDA00_14.json",
+				"folderPath": "2021-08-17",
+				"container": "customerid"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"device_id": {
+					"type": "string"
+				},
+				"customer_id": {
+					"type": "string"
+				},
+				"timestamp": {
+					"type": "integer"
+				},
+				"stay_time": {
+					"type": "integer"
+				},
+				"age": {
+					"type": "integer"
+				},
+				"gender": {
+					"type": "string"
+				},
+				"mask": {
+					"type": "string"
+				},
+				"order": {
+					"type": "string"
+				},
+				"status": {
+					"type": "string"
+				},
+				"watch_time": {
+					"type": "integer"
+				},
+				"max_watch_duration": {
+					"type": "integer"
+				},
+				"watch_start_time": {
+					"type": "integer"
+				},
+				"detail_watch_time": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"start_time": {
+								"type": "integer"
+							},
+							"end_time": {
+								"type": "integer"
+							}
+						}
+					}
+				},
+				"direction_roll": {
+					"type": "number"
+				},
+				"direction_pitch": {
+					"type": "number"
+				},
+				"direction_yaw": {
+					"type": "number"
+				}
+			}
+		}
+	}
+}
