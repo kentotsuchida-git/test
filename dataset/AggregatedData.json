@@ -12,11 +12,6 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "ID",
-				"type": "int",
-				"precision": 10
-			},
-			{
 				"name": "customer_id",
 				"type": "varchar"
 			},
