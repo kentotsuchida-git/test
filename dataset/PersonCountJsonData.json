@@ -2,8 +2,22 @@
 	"name": "PersonCountJsonData",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureBlobStorage1",
+			"referenceName": "stpersoncountdevjpea001",
 			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"customerid": {
+				"type": "string"
+			},
+			"deviceid": {
+				"type": "string"
+			},
+			"date": {
+				"type": "string"
+			},
+			"hour": {
+				"type": "string"
+			}
 		},
 		"folder": {
 			"name": "dataset"
@@ -13,9 +27,18 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "DEVICEIDA00_14.json",
-				"folderPath": "2021-08-17",
-				"container": "customerid"
+				"fileName": {
+					"value": "@concat(dataset().deviceid, '_', dataset().hour, '.json')",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().date",
+					"type": "Expression"
+				},
+				"container": {
+					"value": "@dataset().customerid",
+					"type": "Expression"
+				}
 			}
 		},
 		"schema": {
