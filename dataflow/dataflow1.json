@@ -1,0 +1,35 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"folder": {
+			"name": "dataflow"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Json1",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "fileter1"
+				}
+			],
+			"script": "parameters{\n\tdevice_id as string\n}\nsource(output(\n\t\tdevice_id as string,\n\t\tcustomer_id as string,\n\t\ttimestamp as string,\n\t\tstay_time as string,\n\t\tage as string,\n\t\tgender as string,\n\t\tmask as string,\n\t\torder as string,\n\t\tstatus as string,\n\t\twatch_time as string,\n\t\tmax_watch_duration as string,\n\t\twatch_start_time as string,\n\t\tdetail_watch_time as (start_time as string, end_time as string)[],\n\t\tdirection_roll as double,\n\t\tdirection_pitch as double,\n\t\tdirection_yaw as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'documentPerLine') ~> source1\nsource1 filter(equals(device_id, $device_id)) ~> fileter1\nfileter1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID as integer,\n\t\tFirstName as string,\n\t\tLastName as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sink1"
+		}
+	}
+}
