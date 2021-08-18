@@ -2,7 +2,7 @@
 	"name": "AggregatedData",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureSqlDatabase1",
+			"referenceName": "sqldbAwlTmtAgrVsldevJapanEast001",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
@@ -27,7 +27,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "emp"
+			"table": "testtable"
 		}
 	}
 }
