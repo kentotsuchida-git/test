@@ -27,10 +27,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": {
-					"value": "@concat(dataset().deviceid, '_', dataset().hour, '.json')",
-					"type": "Expression"
-				},
 				"folderPath": {
 					"value": "@dataset().date",
 					"type": "Expression"
