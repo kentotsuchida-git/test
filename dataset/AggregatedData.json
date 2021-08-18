@@ -17,12 +17,37 @@
 				"precision": 10
 			},
 			{
-				"name": "FirstName",
+				"name": "customer_id",
 				"type": "varchar"
 			},
 			{
-				"name": "LastName",
+				"name": "target_hour",
 				"type": "varchar"
+			},
+			{
+				"name": "stay_time_sum",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "generation",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "gender",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "mask",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "watch_time_sum",
+				"type": "int",
+				"precision": 10
 			}
 		],
 		"typeProperties": {
