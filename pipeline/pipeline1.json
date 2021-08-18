@@ -1,6 +1,43 @@
 {
 	"name": "pipeline1",
 	"properties": {
+		"activities": [
+			{
+				"name": "Data flow1",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "PersonCountDataFlow",
+						"type": "DataFlowReference",
+						"parameters": {
+							"device_id": "'DEVICEIDA00'"
+						},
+						"datasetParameters": {
+							"source1": {
+								"customerid": "customerid",
+								"deviceid": "DEVICEIDA00",
+								"date": "2021-08-17",
+								"hour": "15"
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
 		"folder": {
 			"name": "pipeline"
 		},
