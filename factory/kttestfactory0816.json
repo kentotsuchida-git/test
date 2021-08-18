@@ -1,0 +1,9 @@
+{
+	"name": "kttestfactory0816",
+	"location": "japaneast",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "5c973039-3c12-4404-8864-1ba910d58b21",
+		"tenantId": "16aa4884-913f-4d0d-9529-afee6d1183ef"
+	}
+}
