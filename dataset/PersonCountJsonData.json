@@ -21,7 +21,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "DEVICEIDA00_14.json",
 				"folderPath": {
 					"value": "@dataset().date",
 					"type": "Expression"
