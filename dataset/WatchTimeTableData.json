@@ -10,41 +10,7 @@
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
-		"schema": [
-			{
-				"name": "customer_id",
-				"type": "varchar"
-			},
-			{
-				"name": "target_hour",
-				"type": "varchar"
-			},
-			{
-				"name": "stay_time_sum",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "generation",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "gender",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "mask",
-				"type": "int",
-				"precision": 10
-			},
-			{
-				"name": "watch_time_sum",
-				"type": "int",
-				"precision": 10
-			}
-		],
+		"schema": [],
 		"typeProperties": {
 			"schema": "dbo",
 			"table": "watchtimetable"
