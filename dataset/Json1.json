@@ -5,11 +5,6 @@
 			"referenceName": "AzureBlobStorage2",
 			"type": "LinkedServiceReference"
 		},
-		"parameters": {
-			"test": {
-				"type": "string"
-			}
-		},
 		"folder": {
 			"name": "dataset"
 		},
@@ -17,7 +12,8 @@
 		"type": "Json",
 		"typeProperties": {
 			"location": {
-				"type": "AzureBlobStorageLocation"
+				"type": "AzureBlobStorageLocation",
+				"container": "adfv2tutorial"
 			}
 		},
 		"schema": {}
