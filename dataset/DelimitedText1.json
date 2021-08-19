@@ -1,0 +1,39 @@
+{
+	"name": "DelimitedText1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "stpersoncountdevjpea002",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"customerid": {
+				"type": "string"
+			},
+			"date": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "dataset"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": {
+					"value": "@dataset().date",
+					"type": "Expression"
+				},
+				"container": {
+					"value": "@dataset().customerid",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
