@@ -6,22 +6,18 @@
 		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
-			"sources": [
+			"sources": [],
+			"sinks": [
 				{
 					"dataset": {
 						"referenceName": "Json1",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "sink1"
 				}
 			],
-			"sinks": [],
-			"transformations": [
-				{
-					"name": "fileter1"
-				}
-			],
-			"script": "parameters{\n\tparametertest as string[]\n}\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'documentPerLine') ~> source1\nsource1 filter($parametertest) ~> fileter1"
+			"transformations": [],
+			"script": "parameters{\n\tparametertest as string[]\n}\n sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
 		}
 	}
 }

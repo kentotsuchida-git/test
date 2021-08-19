@@ -13,6 +13,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": "DEVICEIDA00_14.json",
 				"container": "adfv2tutorial"
 			}
 		},
