@@ -1,0 +1,21 @@
+{
+	"name": "RestService1",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://stpersoncountdevjpea001.blob.core.windows.net/customerid/2021-08-17/DEVICEIDA00_14.json",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Basic",
+			"userName": "test",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "kvlinkservice",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "DEVDatafactorySASKey"
+			}
+		}
+	}
+}
