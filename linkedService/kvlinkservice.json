@@ -1,0 +1,10 @@
+{
+	"name": "kvlinkservice",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://kv-AwlTmtAgrVsl-dev.vault.azure.net/"
+		}
+	}
+}
