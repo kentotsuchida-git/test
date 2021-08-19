@@ -1,0 +1,19 @@
+{
+	"name": "AzureSqlTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sqldbAwlTmtAgrVsldevJapanEast001",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "dataset"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "masktable"
+		}
+	}
+}
