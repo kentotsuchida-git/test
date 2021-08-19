@@ -1,0 +1,33 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "データ ファクトリ名",
+			"defaultValue": "adf-AwlTmtAgrVsl-PersonData-dev-JapanEast-001"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/stpersoncountdevjpea001')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"sasUri": "https://stpersoncountdevjpea001.blob.core.windows.net/?sv=2020-08-04&ss=bfqt&srt=sco&sp=rltfx&se=2022-08-19T10:47:06Z&st=2020-08-19T02:47:06Z&spr=https&sig=k0ucANf4oN7la5uHsRw8%2B79KQZRNt5Rz4jl1t2O6iVw%3D",
+					"sasToken": {
+						"type": "SecureString",
+						"value": "**********"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
