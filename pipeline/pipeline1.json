@@ -53,7 +53,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DelimitedText1",
+						"referenceName": "PersonCountCSVData",
 						"type": "DatasetReference",
 						"parameters": {
 							"customerid": "customerid",
