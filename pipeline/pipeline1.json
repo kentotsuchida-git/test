@@ -78,7 +78,15 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "dataflow2",
-						"type": "DataFlowReference"
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"source1": {
+								"test": {
+									"value": "@activity('Lookup1').output",
+									"type": "Expression"
+								}
+							}
+						}
 					},
 					"compute": {
 						"coreCount": 8,
