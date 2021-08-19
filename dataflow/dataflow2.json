@@ -21,7 +21,7 @@
 					"name": "fileter1"
 				}
 			],
-			"script": "parameters{\n\tparametertest as string[]\n}\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'documentPerLine') ~> source1\nsource1 filter(ERROR_FUNCTION('')) ~> fileter1"
+			"script": "parameters{\n\tparametertest as string[]\n}\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'documentPerLine') ~> source1\nsource1 filter($parametertest) ~> fileter1"
 		}
 	}
 }
