@@ -30,8 +30,7 @@
 					"sink": {
 						"type": "DelimitedTextSink",
 						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings",
-							"copyBehavior": "PreserveHierarchy"
+							"type": "AzureBlobStorageWriteSettings"
 						},
 						"formatSettings": {
 							"type": "DelimitedTextWriteSettings",
@@ -39,7 +38,77 @@
 							"fileExtension": ".csv"
 						}
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['device_id']"
+								},
+								"sink": {
+									"name": "device_id"
+								}
+							},
+							{
+								"source": {
+									"path": "$['customer_id']"
+								},
+								"sink": {
+									"name": "customer_id"
+								}
+							},
+							{
+								"source": {
+									"path": "$['timestamp']"
+								},
+								"sink": {
+									"name": "timestamp"
+								}
+							},
+							{
+								"source": {
+									"path": "$['stay_time']"
+								},
+								"sink": {
+									"name": "stay_time"
+								}
+							},
+							{
+								"source": {
+									"path": "$['age']"
+								},
+								"sink": {
+									"name": "age"
+								}
+							},
+							{
+								"source": {
+									"path": "$['gender']"
+								},
+								"sink": {
+									"name": "gender"
+								}
+							},
+							{
+								"source": {
+									"path": "$['mask']"
+								},
+								"sink": {
+									"name": "mask"
+								}
+							},
+							{
+								"source": {
+									"path": "$['watch_time']"
+								},
+								"sink": {
+									"name": "watch_time"
+								}
+							}
+						],
+						"collectionReference": ""
+					}
 				},
 				"inputs": [
 					{
@@ -63,11 +132,6 @@
 				]
 			}
 		],
-		"variables": {
-			"syuturyoku": {
-				"type": "Array"
-			}
-		},
 		"folder": {
 			"name": "pipeline"
 		},
