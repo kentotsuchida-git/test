@@ -60,6 +60,14 @@
 							},
 							{
 								"source": {
+									"path": "$['store_id']"
+								},
+								"sink": {
+									"name": "store_id"
+								}
+							},
+							{
+								"source": {
 									"path": "$['timestamp']"
 								},
 								"sink": {
