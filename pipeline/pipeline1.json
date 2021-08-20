@@ -139,8 +139,14 @@
 						"referenceName": "PersonCountCSVData",
 						"type": "DatasetReference",
 						"parameters": {
-							"customerid": "customerid",
-							"date": "2021-08-17"
+							"customerid": {
+								"value": "@pipeline().parameters.customerid",
+								"type": "Expression"
+							},
+							"date": {
+								"value": "@pipeline().parameters.date",
+								"type": "Expression"
+							}
 						}
 					}
 				]
