@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "JsonToCSV",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -160,11 +160,11 @@
 				]
 			},
 			{
-				"name": "Data flow1",
+				"name": "Aggregation",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "JsonToCSV",
 						"dependencyConditions": [
 							"Succeeded"
 						]
