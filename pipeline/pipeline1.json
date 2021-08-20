@@ -178,8 +178,13 @@
 			}
 		],
 		"parameters": {
-			"test": {
+			"testparameters": {
 				"type": "string"
+			}
+		},
+		"variables": {
+			"testvariables": {
+				"type": "String"
 			}
 		},
 		"folder": {
