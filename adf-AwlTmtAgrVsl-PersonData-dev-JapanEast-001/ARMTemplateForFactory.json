@@ -1,0 +1,732 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "データ ファクトリ名",
+			"defaultValue": "adf-AwlTmtAgrVsl-PersonData-dev-JapanEast-001"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "'AzureBlobStorage1' の 'connectionString' のセキュリティで保護された文字列"
+		},
+		"AzureBlobStorage2_connectionString": {
+			"type": "secureString",
+			"metadata": "'AzureBlobStorage2' の 'connectionString' のセキュリティで保護された文字列"
+		},
+		"AzureSqlDatabase1_connectionString": {
+			"type": "secureString",
+			"metadata": "'AzureSqlDatabase1' の 'connectionString' のセキュリティで保護された文字列"
+		},
+		"AzureSqlDatabaseLinkedService_connectionString": {
+			"type": "secureString",
+			"metadata": "'AzureSqlDatabaseLinkedService' の 'connectionString' のセキュリティで保護された文字列"
+		},
+		"AzureStorageLinkedService_connectionString": {
+			"type": "secureString",
+			"metadata": "'AzureStorageLinkedService' の 'connectionString' のセキュリティで保護された文字列"
+		},
+		"AzureTableStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "'AzureTableStorage1' の 'connectionString' のセキュリティで保護された文字列"
+		},
+		"sqldbAwlTmtAgrVsldevJapanEast001_connectionString": {
+			"type": "secureString",
+			"metadata": "'sqldbAwlTmtAgrVsldevJapanEast001' の 'connectionString' のセキュリティで保護された文字列"
+		},
+		"RestService1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://stpersoncountdevjpea001.blob.core.windows.net/customerid/2021-08-17/DEVICEIDA00_14.json"
+		},
+		"RestService1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "test"
+		},
+		"kvlinkservice_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://kv-AwlTmtAgrVsl-dev.vault.azure.net/"
+		},
+		"stpersoncountdevjpea001_properties_typeProperties_sasUri_secretName": {
+			"type": "string",
+			"defaultValue": "DEVDatafactorySASKey"
+		},
+		"stpersoncountdevjpea002_properties_typeProperties_sasUri_secretName": {
+			"type": "string",
+			"defaultValue": "DEVDatafactorySASKey2"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/PersonDataAggregationPipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"wildcardFileName": "*.json",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['device_id']"
+										},
+										"sink": {
+											"name": "device_id"
+										}
+									},
+									{
+										"source": {
+											"path": "$['customer_id']"
+										},
+										"sink": {
+											"name": "customer_id"
+										}
+									},
+									{
+										"source": {
+											"path": "$['store_id']"
+										},
+										"sink": {
+											"name": "store_id"
+										}
+									},
+									{
+										"source": {
+											"path": "$['timestamp']"
+										},
+										"sink": {
+											"name": "timestamp"
+										}
+									},
+									{
+										"source": {
+											"path": "$['stay_time']"
+										},
+										"sink": {
+											"name": "stay_time"
+										}
+									},
+									{
+										"source": {
+											"path": "$['age']"
+										},
+										"sink": {
+											"name": "age"
+										}
+									},
+									{
+										"source": {
+											"path": "$['gender']"
+										},
+										"sink": {
+											"name": "gender"
+										}
+									},
+									{
+										"source": {
+											"path": "$['mask']"
+										},
+										"sink": {
+											"name": "mask"
+										}
+									},
+									{
+										"source": {
+											"path": "$['watch_time']"
+										},
+										"sink": {
+											"name": "watch_time"
+										}
+									}
+								],
+								"collectionReference": ""
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "PersonCountJsonData",
+								"type": "DatasetReference",
+								"parameters": {
+									"customerid": {
+										"value": "@pipeline().parameters.customerid",
+										"type": "Expression"
+									},
+									"date": {
+										"value": "@pipeline().parameters.date",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "PersonCountCSVData",
+								"type": "DatasetReference",
+								"parameters": {
+									"customerid": {
+										"value": "@pipeline().parameters.customerid",
+										"type": "Expression"
+									},
+									"date": {
+										"value": "@pipeline().parameters.date",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					},
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Copy data1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "PersonCountDataFlow",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {
+										"customerid": {
+											"value": "@pipeline().parameters.customerid",
+											"type": "Expression"
+										},
+										"date": {
+											"value": "@pipeline().parameters.date",
+											"type": "Expression"
+										}
+									},
+									"PersonDataTableSink": {},
+									"MaskTableSink": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"parameters": {
+					"customerid": {
+						"type": "string",
+						"defaultValue": "customerid"
+					},
+					"date": {
+						"type": "string",
+						"defaultValue": "2021-08-17"
+					}
+				},
+				"folder": {
+					"name": "pipeline"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/PersonCountJsonData')]",
+				"[concat(variables('factoryId'), '/datasets/PersonCountCSVData')]",
+				"[concat(variables('factoryId'), '/dataflows/PersonCountDataFlow')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MaskTableData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sqldbAwlTmtAgrVsldevJapanEast001",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "dataset"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "masktable"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/sqldbAwlTmtAgrVsldevJapanEast001')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PersonCountCSVData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "stpersoncountdevjpea002",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"customerid": {
+						"type": "string"
+					},
+					"date": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "dataset"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": {
+							"value": "@dataset().date",
+							"type": "Expression"
+						},
+						"container": {
+							"value": "@dataset().customerid",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/stpersoncountdevjpea002')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PersonCountJsonData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "stpersoncountdevjpea001",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"customerid": {
+						"type": "string"
+					},
+					"date": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "dataset"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": {
+							"value": "@dataset().date",
+							"type": "Expression"
+						},
+						"container": {
+							"value": "@dataset().customerid",
+							"type": "Expression"
+						}
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"device_id": {
+							"type": "string"
+						},
+						"customer_id": {
+							"type": "string"
+						},
+						"timestamp": {
+							"type": "integer"
+						},
+						"stay_time": {
+							"type": "integer"
+						},
+						"age": {
+							"type": "integer"
+						},
+						"gender": {
+							"type": "string"
+						},
+						"mask": {
+							"type": "string"
+						},
+						"order": {
+							"type": "string"
+						},
+						"status": {
+							"type": "string"
+						},
+						"watch_time": {
+							"type": "integer"
+						},
+						"max_watch_duration": {
+							"type": "integer"
+						},
+						"watch_start_time": {
+							"type": "integer"
+						},
+						"detail_watch_time": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"start_time": {
+										"type": "integer"
+									},
+									"end_time": {
+										"type": "integer"
+									}
+								}
+							}
+						},
+						"direction_roll": {
+							"type": "number"
+						},
+						"direction_pitch": {
+							"type": "number"
+						},
+						"direction_yaw": {
+							"type": "number"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/stpersoncountdevjpea001')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PersonData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sqldbAwlTmtAgrVsldevJapanEast001",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "dataset"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "PersonDataAggregation"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/sqldbAwlTmtAgrVsldevJapanEast001')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage2_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSqlDatabase1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabaseLinkedService')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSqlDatabaseLinkedService_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureStorageLinkedService')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureStorageLinkedService_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureTableStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureTableStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureTableStorage1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RestService1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('RestService1_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Basic",
+					"userName": "[parameters('RestService1_properties_typeProperties_userName')]",
+					"password": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "kvlinkservice",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "DEVDatafactorySASKey"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/kvlinkservice')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/kvlinkservice')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('kvlinkservice_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sqldbAwlTmtAgrVsldevJapanEast001')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('sqldbAwlTmtAgrVsldevJapanEast001_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/stpersoncountdevjpea001')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"sasUri": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "kvlinkservice",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "[parameters('stpersoncountdevjpea001_properties_typeProperties_sasUri_secretName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/kvlinkservice')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/stpersoncountdevjpea002')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"sasUri": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "kvlinkservice",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "[parameters('stpersoncountdevjpea002_properties_typeProperties_sasUri_secretName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/kvlinkservice')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PersonCountDataFlow')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "dataflow"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "PersonCountCSVData",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "PersonData",
+								"type": "DatasetReference"
+							},
+							"name": "PersonDataTableSink"
+						},
+						{
+							"dataset": {
+								"referenceName": "MaskTableData",
+								"type": "DatasetReference"
+							},
+							"name": "MaskTableSink"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Convert"
+						},
+						{
+							"name": "PersonDataTableSelect"
+						},
+						{
+							"name": "PersonDataTableAggregation"
+						},
+						{
+							"name": "MaskTableAggregation"
+						},
+						{
+							"name": "MaskTableSelect"
+						},
+						{
+							"name": "MaskTableUpsert"
+						},
+						{
+							"name": "PersonDataTableUpsert"
+						},
+						{
+							"name": "AddUpdateTimeColumn1"
+						},
+						{
+							"name": "AddUpdateTimeColumn2"
+						}
+					],
+					"script": "source(output(\n\t\tdevice_id as string,\n\t\tcustomer_id as string,\n\t\tstore_id as string,\n\t\ttimestamp as long,\n\t\tstay_time as integer,\n\t\tage as integer,\n\t\tgender as string,\n\t\tmask as string,\n\t\twatch_time as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: true,\n\tignoreNoFilesFound: false,\n\tpurgeFiles: true,\n\tpreferredIntegralType: 'integer') ~> source1\nsource1 derive(generation = case(age < 10 && age >= 0, 0,\r\ncase(age < 20 && age >= 10, 10,\r\ncase(age < 30 && age >= 20, 20,\r\ncase(age < 40 && age >= 30, 30,\r\ncase(age < 50 && age >= 40, 40,\r\ncase(age < 60 && age >= 50, 50,\r\ncase(age < 70 && age >= 60, 60,\r\ncase(age < 80 && age >= 70, 70,\r\ncase(age < 90 && age >= 80, 80,\r\ncase(age < 100 && age >= 90, 90, -1)))))))))),\n\t\tgender = case(gender == 'male', 1,\r\ncase(gender == 'female', 2, 0)),\n\t\twatch_time_count = iif(watch_time > 0, 1, 0),\n\t\ttarget_hour = toTimestamp(toString(toTimestamp('1970-01-01 00:00:00') + seconds(toInteger(timestamp/1000)), 'yyyy-MM-dd HH:00:00')),\n\t\tmask = case(mask == 'good', 1,\r\ncase(mask == 'bad', 2,\r\ncase(mask == 'none', 0, -1)))) ~> Convert\nAddUpdateTimeColumn2 select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> PersonDataTableSelect\nConvert aggregate(groupBy(customer_id,\n\t\tstore_id,\n\t\ttarget_hour,\n\t\tgeneration,\n\t\tgender),\n\tstay_time_sum = sum(stay_time),\n\t\twatch_time_sum = sum(watch_time),\n\t\twatch_count = sum(watch_time_count),\n\t\tcount = count(customer_id)) ~> PersonDataTableAggregation\nConvert aggregate(groupBy(customer_id,\n\t\ttarget_hour,\n\t\tmask,\n\t\tstore_id),\n\tmask_count = count(mask)) ~> MaskTableAggregation\nAddUpdateTimeColumn1 select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> MaskTableSelect\nMaskTableSelect alterRow(upsertIf(true())) ~> MaskTableUpsert\nPersonDataTableSelect alterRow(upsertIf(true())) ~> PersonDataTableUpsert\nMaskTableAggregation derive(update_datetime = currentTimestamp(),\n\t\tcreate_datetime = currentTimestamp()) ~> AddUpdateTimeColumn1\nPersonDataTableAggregation derive(update_datetime = currentTimestamp(),\n\t\tcreate_datetime = currentTimestamp()) ~> AddUpdateTimeColumn2\nPersonDataTableUpsert sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['customer_id','store_id','target_hour','generation','gender'],\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> PersonDataTableSink\nMaskTableUpsert sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['customer_id','target_hour','store_id'],\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> MaskTableSink"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/PersonCountCSVData')]",
+				"[concat(variables('factoryId'), '/datasets/PersonData')]",
+				"[concat(variables('factoryId'), '/datasets/MaskTableData')]"
+			]
+		}
+	]
+}

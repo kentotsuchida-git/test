@@ -1,0 +1,126 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "データ ファクトリ名",
+			"defaultValue": "adf-AwlTmtAgrVsl-PersonData-dev-JapanEast-001"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "'AzureBlobStorage1' の 'connectionString' のセキュリティで保護された文字列"
+		},
+		"AzureBlobStorage2_connectionString": {
+			"type": "secureString",
+			"metadata": "'AzureBlobStorage2' の 'connectionString' のセキュリティで保護された文字列"
+		},
+		"AzureSqlDatabase1_connectionString": {
+			"type": "secureString",
+			"metadata": "'AzureSqlDatabase1' の 'connectionString' のセキュリティで保護された文字列"
+		},
+		"AzureSqlDatabaseLinkedService_connectionString": {
+			"type": "secureString",
+			"metadata": "'AzureSqlDatabaseLinkedService' の 'connectionString' のセキュリティで保護された文字列"
+		},
+		"AzureStorageLinkedService_connectionString": {
+			"type": "secureString",
+			"metadata": "'AzureStorageLinkedService' の 'connectionString' のセキュリティで保護された文字列"
+		},
+		"AzureTableStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "'AzureTableStorage1' の 'connectionString' のセキュリティで保護された文字列"
+		},
+		"sqldbAwlTmtAgrVsldevJapanEast001_connectionString": {
+			"type": "secureString",
+			"metadata": "'sqldbAwlTmtAgrVsldevJapanEast001' の 'connectionString' のセキュリティで保護された文字列"
+		},
+		"RestService1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://stpersoncountdevjpea001.blob.core.windows.net/customerid/2021-08-17/DEVICEIDA00_14.json"
+		},
+		"RestService1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "test"
+		},
+		"kvlinkservice_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://kv-AwlTmtAgrVsl-dev.vault.azure.net/"
+		},
+		"stpersoncountdevjpea001_properties_typeProperties_sasUri_secretName": {
+			"type": "string",
+			"defaultValue": "DEVDatafactorySASKey"
+		},
+		"stpersoncountdevjpea002_properties_typeProperties_sasUri_secretName": {
+			"type": "string",
+			"defaultValue": "DEVDatafactorySASKey2"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "リンクされた ARM テンプレートを含むストレージ アカウントの URI"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "リンクされた ARM テンプレートを格納するストレージ アカウントへの SAS トークン"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "adf-AwlTmtAgrVsl-PersonData-dev-JapanEast-001_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureBlobStorage1_connectionString": {
+						"value": "[parameters('AzureBlobStorage1_connectionString')]"
+					},
+					"AzureBlobStorage2_connectionString": {
+						"value": "[parameters('AzureBlobStorage2_connectionString')]"
+					},
+					"AzureSqlDatabase1_connectionString": {
+						"value": "[parameters('AzureSqlDatabase1_connectionString')]"
+					},
+					"AzureSqlDatabaseLinkedService_connectionString": {
+						"value": "[parameters('AzureSqlDatabaseLinkedService_connectionString')]"
+					},
+					"AzureStorageLinkedService_connectionString": {
+						"value": "[parameters('AzureStorageLinkedService_connectionString')]"
+					},
+					"AzureTableStorage1_connectionString": {
+						"value": "[parameters('AzureTableStorage1_connectionString')]"
+					},
+					"sqldbAwlTmtAgrVsldevJapanEast001_connectionString": {
+						"value": "[parameters('sqldbAwlTmtAgrVsldevJapanEast001_connectionString')]"
+					},
+					"kvlinkservice_properties_typeProperties_baseUrl": {
+						"value": "[parameters('kvlinkservice_properties_typeProperties_baseUrl')]"
+					},
+					"RestService1_properties_typeProperties_url": {
+						"value": "[parameters('RestService1_properties_typeProperties_url')]"
+					},
+					"RestService1_properties_typeProperties_userName": {
+						"value": "[parameters('RestService1_properties_typeProperties_userName')]"
+					},
+					"stpersoncountdevjpea001_properties_typeProperties_sasUri_secretName": {
+						"value": "[parameters('stpersoncountdevjpea001_properties_typeProperties_sasUri_secretName')]"
+					},
+					"stpersoncountdevjpea002_properties_typeProperties_sasUri_secretName": {
+						"value": "[parameters('stpersoncountdevjpea002_properties_typeProperties_sasUri_secretName')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

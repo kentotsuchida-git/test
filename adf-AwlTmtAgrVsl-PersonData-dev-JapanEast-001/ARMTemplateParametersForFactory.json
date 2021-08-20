@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adf-AwlTmtAgrVsl-PersonData-dev-JapanEast-001"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"AzureBlobStorage2_connectionString": {
+			"value": ""
+		},
+		"AzureSqlDatabase1_connectionString": {
+			"value": ""
+		},
+		"AzureSqlDatabaseLinkedService_connectionString": {
+			"value": ""
+		},
+		"AzureStorageLinkedService_connectionString": {
+			"value": ""
+		},
+		"AzureTableStorage1_connectionString": {
+			"value": ""
+		},
+		"sqldbAwlTmtAgrVsldevJapanEast001_connectionString": {
+			"value": ""
+		},
+		"RestService1_properties_typeProperties_url": {
+			"value": "https://stpersoncountdevjpea001.blob.core.windows.net/customerid/2021-08-17/DEVICEIDA00_14.json"
+		},
+		"RestService1_properties_typeProperties_userName": {
+			"value": "test"
+		},
+		"kvlinkservice_properties_typeProperties_baseUrl": {
+			"value": "https://kv-AwlTmtAgrVsl-dev.vault.azure.net/"
+		},
+		"stpersoncountdevjpea001_properties_typeProperties_sasUri_secretName": {
+			"value": "DEVDatafactorySASKey"
+		},
+		"stpersoncountdevjpea002_properties_typeProperties_sasUri_secretName": {
+			"value": "DEVDatafactorySASKey2"
+		}
+	}
+}
