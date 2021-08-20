@@ -108,6 +108,22 @@
 							},
 							{
 								"source": {
+									"path": "$['order']"
+								},
+								"sink": {
+									"name": "order"
+								}
+							},
+							{
+								"source": {
+									"path": "$['status']"
+								},
+								"sink": {
+									"name": "status"
+								}
+							},
+							{
+								"source": {
 									"path": "$['watch_time']"
 								},
 								"sink": {
@@ -202,7 +218,7 @@
 			},
 			"date": {
 				"type": "string",
-				"defaultValue": "2021-08-17"
+				"defaultValue": "2021-08-19"
 			}
 		},
 		"folder": {
