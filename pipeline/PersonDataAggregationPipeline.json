@@ -68,6 +68,14 @@
 							},
 							{
 								"source": {
+									"path": "$['tracking_id']"
+								},
+								"sink": {
+									"name": "tracking_id"
+								}
+							},
+							{
+								"source": {
 									"path": "$['timestamp']"
 								},
 								"sink": {
@@ -104,22 +112,6 @@
 								},
 								"sink": {
 									"name": "mask"
-								}
-							},
-							{
-								"source": {
-									"path": "$['order']"
-								},
-								"sink": {
-									"name": "order"
-								}
-							},
-							{
-								"source": {
-									"path": "$['status']"
-								},
-								"sink": {
-									"name": "status"
 								}
 							},
 							{
