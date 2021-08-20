@@ -201,7 +201,7 @@
 				"defaultValue": "customerid"
 			},
 			"date": {
-				"type": "array",
+				"type": "string",
 				"defaultValue": "2021-08-17"
 			}
 		},
