@@ -35,6 +35,47 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": []
+		"schema": [
+			{
+				"name": "device_id",
+				"type": "String"
+			},
+			{
+				"name": "customer_id",
+				"type": "String"
+			},
+			{
+				"name": "store_id",
+				"type": "String"
+			},
+			{
+				"name": "tracking_id",
+				"type": "String"
+			},
+			{
+				"name": "timestamp",
+				"type": "String"
+			},
+			{
+				"name": "stay_time",
+				"type": "String"
+			},
+			{
+				"name": "age",
+				"type": "String"
+			},
+			{
+				"name": "gender",
+				"type": "String"
+			},
+			{
+				"name": "mask",
+				"type": "String"
+			},
+			{
+				"name": "watch_time",
+				"type": "String"
+			}
+		]
 	}
 }
