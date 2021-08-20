@@ -177,6 +177,11 @@
 				}
 			}
 		],
+		"parameters": {
+			"test": {
+				"type": "string"
+			}
+		},
 		"folder": {
 			"name": "pipeline"
 		},
