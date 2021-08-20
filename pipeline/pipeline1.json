@@ -123,8 +123,14 @@
 						"referenceName": "PersonCountJsonData",
 						"type": "DatasetReference",
 						"parameters": {
-							"customerid": "customerid",
-							"date": "2021-08-17"
+							"customerid": {
+								"value": "@pipeline().parameters.customerid",
+								"type": "Expression"
+							},
+							"date": {
+								"value": "@pipeline().parameters.date",
+								"type": "Expression"
+							}
 						}
 					}
 				],
@@ -164,8 +170,14 @@
 						"type": "DataFlowReference",
 						"datasetParameters": {
 							"source1": {
-								"customerid": "customerid",
-								"date": "2021-08-17"
+								"customerid": {
+									"value": "@pipeline().parameters.customerid",
+									"type": "Expression"
+								},
+								"date": {
+									"value": "@pipeline().parameters.date",
+									"type": "Expression"
+								}
 							}
 						}
 					},
@@ -178,13 +190,13 @@
 			}
 		],
 		"parameters": {
-			"testparameters": {
-				"type": "string"
-			}
-		},
-		"variables": {
-			"testvariables": {
-				"type": "String"
+			"customerid": {
+				"type": "string",
+				"defaultValue": "customerid"
+			},
+			"date": {
+				"type": "string",
+				"defaultValue": "2021-08-17"
 			}
 		},
 		"folder": {
