@@ -10,7 +10,7 @@
 					"referenceName": "kvlinkservice",
 					"type": "LinkedServiceReference"
 				},
-				"secretName": "DEVDatafactorySASKey"
+				"secretName": "DEVDatafactorySASKey2"
 			}
 		}
 	},
