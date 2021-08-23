@@ -6,54 +6,6 @@
 			"type": "string",
 			"metadata": "データ ファクトリ名",
 			"defaultValue": "adf-AwlTmtAgrVsl-PersonData-dev-JapanEast-001"
-		},
-		"AzureBlobStorage1_connectionString": {
-			"type": "secureString",
-			"metadata": "'AzureBlobStorage1' の 'connectionString' のセキュリティで保護された文字列"
-		},
-		"AzureBlobStorage2_connectionString": {
-			"type": "secureString",
-			"metadata": "'AzureBlobStorage2' の 'connectionString' のセキュリティで保護された文字列"
-		},
-		"AzureSqlDatabase1_connectionString": {
-			"type": "secureString",
-			"metadata": "'AzureSqlDatabase1' の 'connectionString' のセキュリティで保護された文字列"
-		},
-		"AzureSqlDatabaseLinkedService_connectionString": {
-			"type": "secureString",
-			"metadata": "'AzureSqlDatabaseLinkedService' の 'connectionString' のセキュリティで保護された文字列"
-		},
-		"AzureStorageLinkedService_connectionString": {
-			"type": "secureString",
-			"metadata": "'AzureStorageLinkedService' の 'connectionString' のセキュリティで保護された文字列"
-		},
-		"AzureTableStorage1_connectionString": {
-			"type": "secureString",
-			"metadata": "'AzureTableStorage1' の 'connectionString' のセキュリティで保護された文字列"
-		},
-		"sqldbAwlTmtAgrVsldevJapanEast001_connectionString": {
-			"type": "secureString",
-			"metadata": "'sqldbAwlTmtAgrVsldevJapanEast001' の 'connectionString' のセキュリティで保護された文字列"
-		},
-		"RestService1_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://stpersoncountdevjpea001.blob.core.windows.net/customerid/2021-08-17/DEVICEIDA00_14.json"
-		},
-		"RestService1_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "test"
-		},
-		"kvlinkservice_properties_typeProperties_baseUrl": {
-			"type": "string",
-			"defaultValue": "https://kv-AwlTmtAgrVsl-dev.vault.azure.net/"
-		},
-		"stpersoncountdevjpea001_properties_typeProperties_sasUri_secretName": {
-			"type": "string",
-			"defaultValue": "DEVDatafactorySASKey"
-		},
-		"stpersoncountdevjpea002_properties_typeProperties_sasUri_secretName": {
-			"type": "string",
-			"defaultValue": "DEVDatafactorySASKey2"
 		}
 	},
 	"variables": {
@@ -246,7 +198,6 @@
 							"dataflow": {
 								"referenceName": "PersonCountDataFlow",
 								"type": "DataFlowReference",
-								"parameters": {},
 								"datasetParameters": {
 									"source1": {
 										"customerid": {
@@ -257,12 +208,9 @@
 											"value": "@pipeline().parameters.date",
 											"type": "Expression"
 										}
-									},
-									"PersonDataTableSink": {},
-									"MaskTableSink": {}
+									}
 								}
 							},
-							"staging": {},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -290,30 +238,6 @@
 				"[concat(variables('factoryId'), '/datasets/PersonCountJsonData')]",
 				"[concat(variables('factoryId'), '/datasets/PersonCountCSVData')]",
 				"[concat(variables('factoryId'), '/dataflows/PersonCountDataFlow')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MaskTableData')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "sqldbAwlTmtAgrVsldevJapanEast001",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "dataset"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "masktable"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/sqldbAwlTmtAgrVsldevJapanEast001')]"
 			]
 		},
 		{
@@ -398,9 +322,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/stpersoncountdevjpea002')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/PersonCountJsonData')]",
@@ -508,207 +430,7 @@
 					}
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/stpersoncountdevjpea001')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/PersonData')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "sqldbAwlTmtAgrVsldevJapanEast001",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "dataset"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "PersonDataAggregation"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/sqldbAwlTmtAgrVsldevJapanEast001')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
-				}
-			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage2')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureBlobStorage2_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureSqlDatabase1_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabaseLinkedService')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureSqlDatabaseLinkedService_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureStorageLinkedService')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureStorageLinkedService_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureTableStorage1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureTableStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureTableStorage1_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/RestService1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "RestService",
-				"typeProperties": {
-					"url": "[parameters('RestService1_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "Basic",
-					"userName": "[parameters('RestService1_properties_typeProperties_userName')]",
-					"password": {
-						"type": "AzureKeyVaultSecret",
-						"store": {
-							"referenceName": "kvlinkservice",
-							"type": "LinkedServiceReference"
-						},
-						"secretName": "DEVDatafactorySASKey"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/kvlinkservice')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/kvlinkservice')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureKeyVault",
-				"typeProperties": {
-					"baseUrl": "[parameters('kvlinkservice_properties_typeProperties_baseUrl')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/sqldbAwlTmtAgrVsldevJapanEast001')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('sqldbAwlTmtAgrVsldevJapanEast001_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/stpersoncountdevjpea001')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"sasUri": {
-						"type": "AzureKeyVaultSecret",
-						"store": {
-							"referenceName": "kvlinkservice",
-							"type": "LinkedServiceReference"
-						},
-						"secretName": "[parameters('stpersoncountdevjpea001_properties_typeProperties_sasUri_secretName')]"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/kvlinkservice')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/stpersoncountdevjpea002')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"sasUri": {
-						"type": "AzureKeyVaultSecret",
-						"store": {
-							"referenceName": "kvlinkservice",
-							"type": "LinkedServiceReference"
-						},
-						"secretName": "[parameters('stpersoncountdevjpea002_properties_typeProperties_sasUri_secretName')]"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/kvlinkservice')]"
-			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/PersonCountDataFlow')]",
@@ -778,9 +500,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/PersonCountCSVData')]",
-				"[concat(variables('factoryId'), '/datasets/PersonData')]",
-				"[concat(variables('factoryId'), '/datasets/MaskTableData')]"
+				"[concat(variables('factoryId'), '/datasets/PersonCountCSVData')]"
 			]
 		}
 	]
